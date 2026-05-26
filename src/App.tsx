@@ -20,7 +20,8 @@ import {
   Smile,
   Heart,
   Sliders,
-  Award
+  Award,
+  Menu
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Product, CartItem, Testimonial, SkinQuizAnswers } from './types';
@@ -91,8 +92,8 @@ const ProductCard = ({
                 <button
                   key={shade.value}
                   onClick={() => setCardShadeIdx(idx)}
-                  className={`w-5 h-5 rounded-full border border-[#D48C70]/20 relative transition-all ${
-                    cardShadeIdx === idx ? 'scale-115 ring-2 ring-[#D48C70] ring-offset-1' : 'hover:scale-105'
+                  className={`w-7 h-7 sm:w-5 sm:h-5 rounded-full border border-[#D48C70]/20 relative transition-all ${
+                    cardShadeIdx === idx ? 'scale-110 ring-2 ring-[#D48C70] ring-offset-1' : 'hover:scale-105'
                   }`}
                   style={{ backgroundColor: shade.value }}
                   title={shade.name}
@@ -126,6 +127,7 @@ export default function App() {
   // Category & Shopper Search
   const [selectedCategory, setSelectedCategory] = useState<string>('todos');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
   // Cart Management
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -293,6 +295,9 @@ export default function App() {
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
+    if (e.cancelable) {
+      e.preventDefault();
+    }
     if (e.touches[0]) {
       handleSliderMove(e.touches[0].clientX);
     }
@@ -411,8 +416,8 @@ export default function App() {
           
           {/* Logo Brand */}
           <a href="#" className="flex items-center gap-2 group">
-            <span className="font-display text-2xl tracking-widest font-bold text-[#2B231D]">
-              J & M <span className="text-[#c58a7f] italic font-normal tracking-normal font-sans">Glow</span>
+            <span className="font-display text-xl sm:text-2xl tracking-widest font-bold text-[#2B231D]">
+              J & M <span className="text-[#c58a7f] italic font-normal tracking-normal font-sans font-serif">Glow</span>
             </span>
           </a>
 
@@ -429,7 +434,7 @@ export default function App() {
           </nav>
 
           {/* Right Icon Actions */}
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-2 sm:gap-5">
             <button 
               id="desktop-cart-toggle" 
               onClick={() => { setIsCartOpen(true); setCheckoutStep('cart'); }}
@@ -445,13 +450,90 @@ export default function App() {
             </button>
             <a 
               href="#productos" 
-              className="hidden lg:inline-block bg-[#2B231D] text-white text-xs uppercase tracking-widest font-semibold px-5  py-2.5 rounded hover:bg-[#c58a7f] transition-all duration-300 shadow-glow-sm"
+              className="hidden lg:inline-block bg-[#2B231D] text-white text-xs uppercase tracking-widest font-semibold px-5 py-2.5 rounded hover:bg-[#c58a7f] transition-all duration-300 shadow-glow-sm"
             >
               Comprar Ahora
             </a>
+
+            {/* Hamburger button for mobile */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-2 text-[#2B231D] hover:text-[#c58a7f] focus:outline-none transition-colors duration-200 cursor-pointer"
+              aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+            >
+              {isMobileMenuOpen ? <X className="w-5.5 h-5.5" /> : <Menu className="w-5.5 h-5.5" />}
+            </button>
           </div>
         </div>
       </header>
+
+      {/* Mobile Menu Dropdown Panel */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ type: 'spring', stiffness: 200, damping: 25 }}
+            className="md:hidden sticky top-[73px] z-[90] bg-white/95 backdrop-blur-md border-b border-[#F5ECE5] shadow-glow-sm overflow-hidden"
+          >
+            <div className="px-5 py-5 flex flex-col gap-3.5 text-xs tracking-wider uppercase font-medium">
+              <a 
+                href="#productos" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="hover:text-[#c58a7f] transition-colors duration-200 py-2 border-b border-[#FAF7F2] font-semibold block text-left"
+              >
+                Colección
+              </a>
+              <a 
+                href="#probador" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="hover:text-[#c58a7f] transition-colors duration-200 py-2 border-b border-[#FAF7F2] flex items-center justify-between font-semibold"
+              >
+                <span>Virtual Lab</span>
+                <span className="text-[10px] bg-[#EBC1BC] text-[#8C463F] px-1.5 py-0.5 rounded font-sans uppercase">Probador</span>
+              </a>
+              <a 
+                href="#diagnostico" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="hover:text-[#c58a7f] transition-colors duration-200 py-2 border-b border-[#FAF7F2] font-semibold block text-left"
+              >
+                Glow Quiz
+              </a>
+              <a 
+                href="#rutinas" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="hover:text-[#c58a7f] transition-colors duration-200 py-2 border-b border-[#FAF7F2] font-semibold block text-left"
+              >
+                Rutinas
+              </a>
+              <a 
+                href="#testimonios" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="hover:text-[#c58a7f] transition-colors duration-200 py-2 border-b border-[#FAF7F2] font-semibold block text-left"
+              >
+                Reseñas
+              </a>
+              <a 
+                href="#contacto" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="hover:text-[#c58a7f] transition-colors duration-200 py-2 font-semibold block text-left"
+              >
+                Contacto
+              </a>
+              <a 
+                href="#productos"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                }}
+                className="mt-2 bg-[#2D2422] text-white text-center text-xs uppercase tracking-widest font-bold py-3.5 rounded-full hover:bg-[#c58a7f] transition-all"
+              >
+                Ver Tienda
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* 2. Brand Hero Section */}
       <section id="hero" className="relative bg-[#FAF7F2] overflow-hidden min-h-[85vh] flex items-center">
@@ -475,7 +557,7 @@ export default function App() {
               <span className="text-[11px] uppercase tracking-[0.4em] text-[#D48C70] font-bold">Nueva Colección de Lujo</span>
             </div>
             
-            <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl leading-[1.05] italic mb-6 text-[#2D2422]">
+            <h1 className="font-serif text-4xl min-[400px]:text-5xl sm:text-6xl lg:text-7xl leading-[1.05] italic mb-6 text-[#2D2422]">
               Siente el <br />
               <span className="text-[#D48C70] not-italic">Glow</span> en <br />
               tu piel
@@ -560,9 +642,11 @@ export default function App() {
             <div className="lg:col-span-7 flex flex-col items-center">
               <div 
                 ref={sliderRef}
-                className="relative w-full aspect-square max-w-[500px] rounded-3xl overflow-hidden shadow-glow-lg border border-[#D48C70]/10 select-none cursor-ew-resize"
+                className="relative w-full aspect-square max-w-[500px] rounded-3xl overflow-hidden shadow-glow-lg border border-[#D48C70]/10 select-none cursor-ew-resize touch-none"
                 onMouseMove={handleMouseMove}
                 onTouchMove={handleTouchMove}
+                onTouchStart={() => setIsSliding(true)}
+                onTouchEnd={() => setIsSliding(false)}
                 onMouseDown={() => setIsSliding(true)}
                 onMouseUp={() => setIsSliding(false)}
                 onMouseLeave={() => setIsSliding(false)}
@@ -690,9 +774,9 @@ export default function App() {
                       <button
                         key={shade.value}
                         onClick={() => setLabSelectedShade(shade)}
-                        className={`relative w-8 h-8 rounded-full border flex items-center justify-center transition-transform ${
+                        className={`relative w-10 h-10 sm:w-8 sm:h-8 rounded-full border flex items-center justify-center transition-transform ${
                           labSelectedShade.value === shade.value 
-                            ? 'scale-115 ring-2 ring-[#D48C70] ring-offset-2' 
+                            ? 'scale-110 ring-2 ring-[#D48C70] ring-offset-2' 
                             : 'hover:scale-105'
                         }`}
                         title={shade.name}
@@ -883,8 +967,8 @@ export default function App() {
             </div>
           </div>
 
-          {/* Filtering Tabs */}
-          <div className="flex flex-wrap gap-2.5 border-b border-[#D48C70]/10 pb-5 mb-10">
+          {/* Filtering Tabs - Responsive sliding on touch, wrapped on laptops */}
+          <div className="flex overflow-x-auto no-scrollbar gap-2.5 border-b border-[#D48C70]/10 pb-5 mb-10 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap">
             {[
               { id: 'todos', label: 'Todos los Cosméticos' },
               { id: 'rostro', label: 'Rostro (Bases)' },
@@ -895,7 +979,7 @@ export default function App() {
               <button
                 key={tab.id}
                 onClick={() => setSelectedCategory(tab.id)}
-                className={`px-5 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase transition-all ${
+                className={`px-5 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase transition-all shrink-0 ${
                   selectedCategory === tab.id
                     ? 'bg-[#D48C70] text-white shadow-md'
                     : 'bg-[#FAF7F2] text-[#2D2422]/60 hover:bg-[#EEDCD0]/30 hover:text-[#2D2422]'
