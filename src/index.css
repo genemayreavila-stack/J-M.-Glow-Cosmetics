@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", serif;
+  --font-display: "Playfair Display", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Custom modern variables - Artistic Flair Theme */
+:root {
+  --glow-gold: #D48C70;
+  --glow-rose: #F4B9B8;
+  --glow-bronze: #2D2422;
+}
+
+/* Custom scrollbar to keep it sleek and premium */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF7F2;
+}
+::-webkit-scrollbar-thumb {
+  background: #EEDCD0;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #D48C70;
+}
+
+/* Glow animated background effects */
+@keyframes delicatePulse {
+  0%, 100% { opacity: 0.15; transform: scale(1); }
+  50% { opacity: 0.25; transform: scale(1.05); }
+}
+
+.glow-ambient-orb-1 {
+  animation: delicatePulse 10s infinite ease-in-out;
+}
+
+.glow-ambient-orb-2 {
+  animation: delicatePulse 14s infinite ease-in-out reverse;
+}
+
+/* Glassmorphism utility with artistic delicate transparency */
+.glass-panel {
+  backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(212, 140, 112, 0.15);
+}
+
+.glass-panel-dark {
+  backdrop-filter: blur(16px);
+  background: rgba(45, 36, 34, 0.9);
+  border: 1px solid rgba(212, 140, 112, 0.2);
+}
+
+/* Custom soft glow selection shadow */
+.shadow-glow-sm {
+  box-shadow: 0 4px 20px rgba(212, 140, 112, 0.12);
+}
+
+.shadow-glow-lg {
+  box-shadow: 0 10px 30px rgba(212, 140, 112, 0.18);
+}

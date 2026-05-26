@@ -1,0 +1,6 @@
+{
+  "name": "J & M Glow Cosmetics",
+  "description": "Una experiencia premium de maquillaje y cosméticos de alta gama diseñada para resaltar tu brillo natural con elegancia, texturas sedosas y acabados luminosos.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
